@@ -39,8 +39,7 @@
   // Next up you will use jQuery AJAX methods to fetch some things from the dog.ceo website.
   // Check out the dog.ceo API here: https://dog.ceo/dog-api/
   //
-  // 1) Add a click event to the "Generate Doggo" button
-  //
+  // 1) Add a click event to the "Generate Doggo" button - check
   // 2) In your event handler, make an AJAX request to https://dog.ceo/api/breeds/image/random
   //    which will return JSON data.
   //    Hint: there is a very convenient jQuery method for getting JSON data
@@ -72,7 +71,35 @@
 
   // TODO: your code goes here :)
 
-  //
+  //click event
+  $('#generateDoggoBtn').click(clickDoggoBtn)
+
+  const randomDogURL = 'https://dog.ceo/api/breeds/image/random'
+
+  function clickDoggoBtn () {
+    // console.log('You clicked the button')
+  
+    //writing the text to the button and changing it to disabled
+    $('#generateDoggoBtn').html('Genrating Doggo...').attr('disabled', 'disabled')
+    //loads randomDogURL and calls the recieveRandoDog function
+    $.getJSON(randomDogURL, recieveRandomDog)
+
+  }
+
+  //call back function
+  function recieveRandomDog (data) {
+    // console.log( 'recieved random dog' )
+    console.log(data)
+    
+    //adding images
+    $('#doggoContainer').html('')
+    $('<img src="' + data.message + '" alt="Dog Picture">').appendTo('#doggoContainer')
+
+    //removing the disabled on the button
+    $('#generateDoggoBtn').html('Generate Doggo').removeAttr('disabled')
+
+  }
+
   // Cool. Now let's kick it up a notch and allow selecting a specific breed of dog!
   //
   // 1) Add an empty dropdown menu (ie: <select></select>) to the <div id="selectBreedContainer"> element.
@@ -107,6 +134,54 @@
   //
 
   // TODO: your code goes here :)
+
+  //adds the selector box
+  $('#selectBreedContainer').html('<select id="selectMenu"></select>')
+  const breedList = 'https://dog.ceo/api/breeds/list'
+
+  //loads the breeds list to the selector box
+  $().ready(loadSelectorBox)
+
+    //rendering html/json to selector box
+function loadSelectorBox () {
+  console.log('selector box')
+   //make a GET request to breed list when page first loads
+   $.get(breedList, recieveBreedsList)
+  
+}//load selector box
+
+//call back function
+  function recieveBreedsList (data) {
+    console.log(data)
+
+    //creating for loop to render dog breeds in
+    for (let i = 0; i < data.message.length; i++) {
+      $(`<option value="${data.message[i]}">${data.message[i]}</option>`).appendTo('#selectMenu')
+    }//for loop
+    
+  }//call back function
+
+//I THINK SOMETHING IS MESSED UP WITH CLICK EVENT
+$('select').on('change', changeEventFunction )
+
+function changeEventFunction (data) {
+  console.log(data)
+  console.log($('select').val())
+
+  //making get request to selected breed
+  $.get(`https://dog.ceo/api/breed/${$('select').val()}/images/random`, breedCallBackFunction)
+}
+ 
+function breedCallBackFunction (data) {
+  $('#doggoContainer').html('')
+  $('<img src="' + data.message + '" alt="'+ data.message + ' Picture">').appendTo('#doggoContainer')
+}
+
+  // 7) In the callback function, create a new dog <img> tag and add it to the page, similar to the
+  //    first exercise.
+  //
+  //    You should now be able to view random pictures of specific dog breeds via the menu!
+
 
   //
   // Excellent work!
