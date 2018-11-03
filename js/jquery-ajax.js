@@ -89,7 +89,7 @@
   //call back function
   function recieveRandomDog (data) {
     // console.log( 'recieved random dog' )
-    console.log(data)
+    // console.log(data)
     
     //adding images
     $('#doggoContainer').html('')
@@ -144,7 +144,7 @@
 
     //rendering html/json to selector box
 function loadSelectorBox () {
-  console.log('selector box')
+  // console.log('selector box')
    //make a GET request to breed list when page first loads
    $.get(breedList, recieveBreedsList)
   
@@ -152,7 +152,7 @@ function loadSelectorBox () {
 
 //call back function
   function recieveBreedsList (data) {
-    console.log(data)
+    // console.log(data)
 
     //creating for loop to render dog breeds in
     for (let i = 0; i < data.message.length; i++) {
@@ -164,8 +164,6 @@ function loadSelectorBox () {
 $('select').on('change', changeEventFunction )
 
 function changeEventFunction (data) {
-  console.log(data)
-  console.log($('select').val())
 
   //making get request to selected breed
   $.get(`https://dog.ceo/api/breed/${$('select').val()}/images/random`, breedCallBackFunction)

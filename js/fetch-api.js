@@ -46,8 +46,9 @@
   // That object has a method called .text() that returns *another* promise object, which allows it
   // to be "chained" as above.
   function extractText (response) {
-    console.log('The AJAX request finished. I am the callback from the first Promise object.')
-    return response.text() // <-- returns a new Promise object
+    // console.log('The AJAX request finished. I am the callback from the first Promise object.')
+    console.log(response)
+     return response.text() // <-- returns a new Promise object
   }
 
   // The responseTxt passed into this function is the result of the second Promise resolving (extractText).
@@ -92,6 +93,41 @@
   //
 
   // TODO: your code goes here :)
+//random cat url
+  const randomCatUrl = 'https://api.thecatapi.com/v1/images/search?size=full&mime_types=jpg&format=json&has_breeds=1&order=RANDOM&page=0&limit=1'
+
+//cat api key
+  const apiKey = 'f2b56c04-a628-437d-b591-72e64e41bc43'
+
+  //click event
+  $('#generateCatBtn').click(clickCatBtn)
+
+  //adding the headers with api key
+  const myHeaders = new Headers({
+    'Content-Type': 'application/json',
+    'x-api-key' : apiKey
+  })//myHeaders
+
+  function clickCatBtn () {
+    //writing the text to the button and changing it to disabled
+    $('#generateCatBtn').html('Genrating Cat...').attr('disabled', 'disabled')
+    fetch(randomCatUrl, {headers: myHeaders})
+      .then(extractPicture)
+      .then(setPicture)  
+  }//clickCatBtn
+
+  //callback from first promise object
+  function extractPicture (response) {
+    return response.json()
+  }//extractjson
+
+function setPicture (picture) {
+  console.log(picture[0].url)
+  $('#catContainer').html('')
+  $('<img src="' + picture[0].url + '" alt="Cat Picture">').appendTo('#catContainer')
+    //enabling button
+  $('#generateCatBtn').html('Generate Doggo').removeAttr('disabled')
+}//setPicture
 
   //
   // What else can you build with your new AJAX knowledge?
