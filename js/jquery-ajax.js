@@ -161,7 +161,6 @@ function loadSelectorBox () {
     
   }//call back function
 
-//I THINK SOMETHING IS MESSED UP WITH CLICK EVENT
 $('select').on('change', changeEventFunction )
 
 function changeEventFunction (data) {
